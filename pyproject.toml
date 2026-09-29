@@ -1,0 +1,13 @@
+[project]
+name = "jevora-9b-v1"
+version = "0.1.0"
+description = "Public inference loader for the jevora-9b-v1 research decision model."
+readme = "README.md"
+requires-python = ">=3.13,<3.14"
+dependencies = [
+  "torch==2.8.0",
+  "transformers==5.17.0",
+]
+
+[tool.uv]
+package = false

@@ -1,0 +1,28 @@
+{
+  "files": {
+    ".env.example": "5750cb209545d460f086b1b79a795df650e338f19f26f2c5db795f861d079417",
+    ".gitignore": "dc00dd330d7e757383f1514cf4214086d3f1ca38052a4a7dab304d39d359c84b",
+    ".python-version": "02e735b3dfe1c32833eb550b7ff8ffa17f5f2bc3fa1e7bae61a8f5a3883ce398",
+    "LICENSE": "50e6751797c50dedd75ef1b8a0d9e42f5f8472e9fbce91f34718e9f97b0c780a",
+    "LICENSES.md": "e7895574cb1de3efdc7b070bb78e2a9364c31ab331bc776e1796be329f6f5481",
+    "Makefile": "137318e5880734cac81b49ea0d08bbee5503fc5264e4ac378ac8be9535f96c4d",
+    "NOTICE": "ab7286be87daa88ec55165a036ba5c41e7cc648eeb7b059e5430d586d5a959ef",
+    "README.md": "5fbc18ee6cba3d1b7b76fea99c5170f8afe6741df178e090c39a957641baa6a7",
+    "assets/calibration.svg": "22c91ef4ed8903ea6e731741f20ddb20cda35146420998287308d5dc5888218d",
+    "assets/dev-by-source.svg": "10006c5bc24b85af76207f7cbf05b25dc32ad394e5f37eee0c5ee670a1235381",
+    "assets/dev-comparison.svg": "8f5b7b287b6e3127045a4e00f8388517bcb1cbad9575afd342f021e1c7db99b0",
+    "assets/final-result.svg": "c50b8f1beb41527446717547bb50a51aa98bfe394138a9b14b0f0df92f71a86b",
+    "docs/MODEL_CARD.md": "ccdfc3aa6f3d353022d10f04bbea833c8a65baf4ef3fc1aac26c2670b508c0a5",
+    "examples/decision.py": "bc0d93129220335f5fe7a31cb44db1f78f114b0c367e966c52093ba0aab7f4ad",
+    "pyproject.toml": "a2f85c5a8e8a47027bd3a6d4801bd222f86c9f1433b7cab033f172cbb46ac3cb",
+    "scripts/doctor.py": "db77e2334375beda9e5320e5d574dde62a798650561c93d3ab9b3c2724e60908",
+    "src/jevora/__init__.py": "4e8fc613f6b7941190c056ca24b59ac11eb9d4fc0255f170fc359a732859cb37",
+    "src/jevora/api_check.py": "92dc87cc894a928e8aa82eb832e9d1ffdcfb651c7a7f535af78494b61474049c",
+    "src/jevora/env.py": "7d2e29212f58bc8c5878ee27b36a2582c225657223f5c1678d6be1eeddbce5e5",
+    "src/jevora/model.py": "8af0af638765998c4f0f28ff0823166fa0db26d329e1c4e5ef4287604bf49cbf",
+    "src/jevora/serve.py": "ef2c3d8c3e0f19fcc2ff05a5148f99adebebfa564f181b8e131eff71763f13a4",
+    "uv.lock": "8b2c002333604d679c4d2070716769afb3a5037b66e4781c5732743e5cbf691d"
+  },
+  "format": 1,
+  "model": "jevora-9b-v1"
+}

@@ -1,0 +1,10 @@
+jevora-9b-v1 uses Qwen/Qwen3.5-9B-Base at revision
+68c46c4b3498877f3ef123c856ecfde50c39f404 as its upstream base model.
+
+The upstream model card declares Apache-2.0. Qwen's license and notices remain
+applicable to the upstream base model, tokenizer and configuration.
+
+Project changes include a compact 255-way decision head, full fine-tuning of
+the backbone and head, a checkpoint-bound temperature calibration artifact, and
+the custom package/inference loader. Project code and derivative weights are
+licensed under Apache-2.0; see LICENSE and LICENSES.md.
