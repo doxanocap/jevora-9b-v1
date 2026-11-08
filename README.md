@@ -22,11 +22,13 @@ zero-based `choice` and ordered `probabilities` out.
 
 [Benchmark adapter and reproduction contract](https://github.com/doxanocap/jevora-9b-v1/blob/main/docs/BENCHMARKS.md).
 
-**V1.6 publication pending.** Training and Decision Index public evaluation are
-complete for the selected research checkpoint. This README does not yet bind
-a published V1.6 package revision or a real-weight public-loader check. The
-working download below is explicitly the historical Full SFT V1 release; its
-weights and temperature differ from V1.6.
+**V1.6 is available.** Download the
+[pinned Hugging Face revision](https://huggingface.co/kadirbekovvv/jevora-9b-v1/tree/545549b8e8104f1780966ef1c13136abb32712b4)
+with the public inference loader. The release operator reported exact tensor
+parity and three cold CUDA research/public-loader checks with maximum
+probability difference 0.0. Remote file verification passed; it did not repeat
+GPU inference or download the weights again. Historical V1 remains available
+at its separate revision below.
 
 - [Inference code](https://github.com/doxanocap/jevora-9b-v1)
 - [Model repository](https://huggingface.co/kadirbekovvv/jevora-9b-v1)
@@ -85,13 +87,29 @@ Training used **570,616 presentations** from **380,411 records**, completing
 **71,327 optimizer updates** at global batch 8 on one H100 PCIe. Peak allocated
 GPU memory was 22.3 GiB. The model was selected using development performance.
 
+![Training loss: window mean cross-entropy in nats versus optimizer updates](assets/v16-loss.svg)
+
+*Figure 2. Mean training cross-entropy over 36 windows covering all 71,327
+updates. Windows contain 2,000 updates, except the final 1,327. The first and
+last means are 0.5458 and 0.2584 nats. These are training measurements, not
+independent evaluation results.*
+
 ![Dev352: in-training group macro trajectory and separate saved-weight accuracy](assets/v16-development.svg)
 
-*Figure 2. Left: 16 saved in-training evaluations, optimizer updates versus
+*Figure 3. Left: 16 saved in-training evaluations, optimizer updates versus
 group macro accuracy (%). Right: raw accuracy on the same 352 records before
 training and after saved-weight reload, 235/352 and 254/352. Dev352 was used
 for selection. Different weighting and execution states are shown separately;
 this is not an independent final test.*
+
+![Dev352 NLL: in-training trajectory and before-training reference in nats](assets/v16-nll.svg)
+
+*Figure 4. Mean Dev NLL from the 16 in-training evaluations; the dashed line
+marks the before-training value, 0.8650 nats. The final in-training value is
+1.0082; the separate saved-weight reload gives 1.0076 on the same 352
+selection cases. Lower is better. T=1 throughout; no fitted calibration.
+Sources, plotted values and SVG hashes for all figures are in
+[aggregate evidence](assets/v16-evidence.json).*
 
 V1.6 uses **temperature 1 with no fitted calibration**. Higher development
 accuracy did not improve probability quality:
@@ -147,18 +165,27 @@ uv sync --locked
 
 ### Use a verified V1.6 package
 
-Set `PACKAGE` to the verified local V1.6 package root supplied by the release
-receipt, then run:
+Download the exact published revision into a fresh directory:
 
 ```bash
+HF_REPO_ID=kadirbekovvv/jevora-9b-v1
+HF_REVISION=545549b8e8104f1780966ef1c13136abb32712b4
+MODEL_DIR=./models/jevora-v16-545549b8
+
+uv run --no-sync hf download "$HF_REPO_ID" --revision "$HF_REVISION" --local-dir "$MODEL_DIR"
+PACKAGE="$MODEL_DIR/jevora-9b-v1"
 make verify-package PACKAGE="$PACKAGE"
 make example PACKAGE="$PACKAGE" DEVICE=cpu
 make serve PACKAGE="$PACKAGE" DEVICE=cuda
 ```
 
-There is no implicit download or default model selection. An exact V1.6 Hub
-revision will be added here only after its publication receipt is available.
-The pinned download in the next section selects the older model deliberately.
+Package `manifest.json` SHA256:
+`483a5398d29b48f252d0aa6349946433b1c0b291bad81ce66d47f1f94ea3c6db`.
+The publication receipt records 27 verified files, including five
+LFS content hashes. The matching checked inference code is
+[GitHub commit `84864f9`](https://github.com/doxanocap/jevora-9b-v1/commit/84864f9a8e8a6642a7b7bc1ab57ee0d5f5297cd2).
+There is no implicit download or default model selection. The next section
+selects the older model deliberately.
 
 ### Historical V1 download
 
@@ -221,7 +248,7 @@ The local server supplies no authentication or hosted inference service.
 | Public version | Source run | Development | Independent final | Availability |
 | --- | --- | --- | --- | --- |
 | Historical V1 (Full SFT) | `9b-v1-full-g1-01`, selected step 4000 | 515/600 | 517/600 | Recorded historical HF revision pinned above |
-| V1.6 (LoRA) | `train-a1`, selected step 71327 | 254/352 after reload | Not measured in this release evidence | Publication and real-weight package check not yet recorded here |
+| V1.6 (LoRA) | `train-a1`, selected step 71327 | 254/352 after reload | Not measured in this release evidence | Published at pinned HF revision above; operator package/remote checks passed |
 
 The source run is a historical training identifier. An experiment namespace
 groups research artifacts; neither automatically defines a public model name.

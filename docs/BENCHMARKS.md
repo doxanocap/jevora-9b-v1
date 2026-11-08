@@ -2,8 +2,12 @@
 
 V1.6's completed **public Decision Index 0.3** run scored **49.83**. This is
 the public suite score, not the organizers' full board score. The completed
-run used the selected research checkpoint; portable-package parity and the
-published package revision must be recorded separately before submission.
+run used the selected research checkpoint. The published package is pinned at
+[HF revision `545549b8`](https://huggingface.co/kadirbekovvv/jevora-9b-v1/tree/545549b8e8104f1780966ef1c13136abb32712b4),
+manifest SHA256 `483a5398d29b48f252d0aa6349946433b1c0b291bad81ce66d47f1f94ea3c6db`.
+The operator reported 924 exact tensors, three cold CUDA research/public
+requests with maximum probability difference 0.0, and remote verification
+PASS. This is bounded package parity, not a repeat of the full benchmark.
 
 ## Similar-size model comparison
 
@@ -83,7 +87,16 @@ weights, benchmark weights, chance correction and coverage adjustment.
 | Tools & Automation | 69.23 |
 | Arts & Human Taste | 34.54 |
 
-The [two release figures](../README.md#v16-results) use only aggregate values.
+The [four release figures](../README.md#v16-results) use only aggregate values:
+Public area skill, window mean training cross-entropy, development accuracy,
+and development NLL. The loss curve covers 36 windows: 35 of 2,000 updates
+and a final 1,327. Its endpoints are 0.5458 and 0.2584 nats. Dev accuracy and
+NLL trajectories use 16 in-training evaluations; separate saved-weight
+measurements are not substituted into those trajectories. At T=1, reload
+NLL is 1.0076 versus 0.8650 before training; lower is better. These training
+and selection metrics do not demonstrate independent generalization or
+calibrated confidence.
+
 [Their evidence record](../assets/v16-evidence.json) identifies the source
 export, input hashes, checkpoint and plotted values. The operator export
 contains parsed/re-serialized source JSON; its hash authenticates that received
