@@ -26,8 +26,16 @@ def post(url: str, payload: dict[str, object]) -> tuple[int, dict[str, object]]:
 
 
 def run(package: Path, device: str) -> dict[str, object]:
-    model, tokenizer, metadata, temperature = load_release_package(package, torch.device(device))
-    service = DecisionService(model, tokenizer, metadata["max_length"], torch.device(device), metadata.get("prompt_version", "jevora-v0.1-choice"), temperature)
+    target = torch.device(device)
+    model, tokenizer, metadata, temperature = load_release_package(package, target)
+    service = DecisionService(
+        model=model,
+        tokenizer=tokenizer,
+        max_length=metadata["max_length"],
+        device=target,
+        prompt_version=metadata.get("prompt_version", "jevora-v0.1-choice"),
+        temperature=temperature,
+    )
     server = ThreadingHTTPServer(("127.0.0.1", 0), handler(service))
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
@@ -41,9 +49,19 @@ def run(package: Path, device: str) -> dict[str, object]:
         long_status, _ = post(endpoint, {"context": "x " * (metadata["max_length"] + 20), "options": ["one", "two"]})
         if invalid_status != 400 or long_status != 400:
             raise RuntimeError(f"invalid request handling failed: invalid={invalid_status}, long={long_status}")
-        return {"status": "passed", "choice": body["choice"], "probability_count": len(probabilities), "probability_sum": sum(probabilities), "invalid_status": invalid_status, "long_input_status": long_status, "temperature": temperature, "package": str(package)}
+        return {
+            "status": "passed",
+            "choice": body["choice"],
+            "probability_count": len(probabilities),
+            "probability_sum": sum(probabilities),
+            "invalid_status": invalid_status,
+            "long_input_status": long_status,
+            "temperature": temperature,
+            "package": str(package),
+        }
     finally:
         server.shutdown()
+        thread.join()
         server.server_close()
 
 

@@ -1,0 +1,167 @@
+{
+  "status": "MEASURED_RESEARCH_CHECKPOINT",
+  "publication_status": "Recorded separately in publication receipt; not inferred from these figures",
+  "model": "Jevora 9B V1.6",
+  "archive_sha256": "cf53d9eb22cc1fb4b920231f9e24dedda972a23350cd7a0a7756bf9cabfd6f3c",
+  "checkpoint_integrity_sha256": "2d9d995f47529c710169ecf102fe5db4adbbc89e823655029e077a63db930002",
+  "model_pt_sha256": "3b101210ec32f8b6a212843c8fb55ed004b8a70fb8ec4c205e899361a4f3c7f9",
+  "decision_index": {
+    "benchmark_revision": "0.3",
+    "primary_score": 49.83,
+    "requests": 140620,
+    "answered": 140299,
+    "unsupported": 321,
+    "errors": 0,
+    "coverage": 0.997717252168966
+  },
+  "decision_index_scores_sha256": "49cb4b9819946348723780deb6377ffb9de6cacc0a93263f6339136f1c1af6aa",
+  "inputs_sha256": {
+    "analysis.json": "7905d01e4891110f78463957dc718b06b425500b023523e4ebe3cb84a0398c3e",
+    "dev-trajectory.json": "9c39ba156ddb49dfd9d7d858674d27c94d3a625bd692dd5fc3067e2fcf71887b",
+    "jevora-v16-analysis-20261106T073321Z.jsonl.gz": "cf53d9eb22cc1fb4b920231f9e24dedda972a23350cd7a0a7756bf9cabfd6f3c"
+  },
+  "export_boundary": "Operator export contains parsed/re-serialized source JSON; file hashes in it are recorded identities",
+  "sources": {
+    "v16-decision-index.svg": "scores.json: areas; analysis.json: benchmark.areas (reproduced from saved scores and fixed 0.3 weights)",
+    "v16-development.svg": "dev-trajectory.json: step, macro_accuracy; analysis.json: dev.before, dev.after"
+  },
+  "decision_index_areas": [
+    {
+      "area": "knowledge",
+      "label": "Knowledge & reasoning",
+      "skill_points": 34.37566666666667,
+      "weight": 0.258494
+    },
+    {
+      "area": "language",
+      "label": "Language understanding",
+      "skill_points": 53.84659574468085,
+      "weight": 0.258494
+    },
+    {
+      "area": "retrieval",
+      "label": "Retrieval & classification",
+      "skill_points": 54.52848484848485,
+      "weight": 0.200229
+    },
+    {
+      "area": "tools",
+      "label": "Tools & automation",
+      "skill_points": 69.2337037037037,
+      "weight": 0.182783
+    },
+    {
+      "area": "arts",
+      "label": "Arts & human taste",
+      "skill_points": 34.53833333333333,
+      "weight": 0.1
+    }
+  ],
+  "official_scoreable_outcomes": {
+    "completed": 140178,
+    "counts": {
+      "ok": 140172,
+      "unsupported": 6
+    }
+  },
+  "development": {
+    "cases": 352,
+    "before_correct": 235,
+    "after_correct": 254,
+    "used_for_selection": true,
+    "in_memory_selected_group_macro": 0.6545993589743591,
+    "trajectory": [
+      {
+        "step": 4458,
+        "group_macro_accuracy": 0.615849358974359
+      },
+      {
+        "step": 8916,
+        "group_macro_accuracy": 0.609599358974359
+      },
+      {
+        "step": 13374,
+        "group_macro_accuracy": 0.6364102564102565
+      },
+      {
+        "step": 17832,
+        "group_macro_accuracy": 0.6243910256410257
+      },
+      {
+        "step": 22290,
+        "group_macro_accuracy": 0.6270352564102565
+      },
+      {
+        "step": 26748,
+        "group_macro_accuracy": 0.6200160256410256
+      },
+      {
+        "step": 31206,
+        "group_macro_accuracy": 0.6241826923076923
+      },
+      {
+        "step": 35664,
+        "group_macro_accuracy": 0.6262660256410257
+      },
+      {
+        "step": 40122,
+        "group_macro_accuracy": 0.6387660256410256
+      },
+      {
+        "step": 44580,
+        "group_macro_accuracy": 0.648349358974359
+      },
+      {
+        "step": 49038,
+        "group_macro_accuracy": 0.651474358974359
+      },
+      {
+        "step": 53496,
+        "group_macro_accuracy": 0.6504326923076923
+      },
+      {
+        "step": 57954,
+        "group_macro_accuracy": 0.6525160256410256
+      },
+      {
+        "step": 62412,
+        "group_macro_accuracy": 0.6493910256410256
+      },
+      {
+        "step": 66870,
+        "group_macro_accuracy": 0.6525160256410256
+      },
+      {
+        "step": 71327,
+        "group_macro_accuracy": 0.6545993589743591
+      }
+    ],
+    "before": {
+      "accuracy": 0.6676136363636364,
+      "nll": 0.865011764581991,
+      "brier": 0.42970779047011254,
+      "ece_10_equal_width": 0.06603967169807717
+    },
+    "saved_weight_after": {
+      "accuracy": 0.7215909090909091,
+      "nll": 1.0075822933456104,
+      "brier": 0.4480544200099919,
+      "ece_10_equal_width": 0.19346603586084463
+    }
+  },
+  "training": {
+    "rows": 380411,
+    "unique_families": 289655,
+    "presentations": 570616,
+    "model_tokens": 220636058
+  },
+  "selected_update": 71327,
+  "figure_units": {
+    "area_skill": "points, 0\u2013100; not accuracy percent",
+    "development": "accuracy percent; optimizer updates"
+  },
+  "figures_sha256": {
+    "v16-decision-index.svg": "ad297586beaadd33ae92ae70f60bfa246fd3da81c9bd9300d2420399f4eff6ff",
+    "v16-development.svg": "34797860cbffd242ecb807c738084a069c110b19e64e52ed0475939f1fae5017"
+  }
+}

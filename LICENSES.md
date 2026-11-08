@@ -9,10 +9,10 @@ project-owned code and derivative weights, not to components listed below.
 
 ## Upstream base model, tokenizer and configuration
 
-The base model is [`Qwen/Qwen3.5-9B-Base` at revision
-`68c46c4b3498877f3ef123c856ecfde50c39f404`](https://huggingface.co/Qwen/Qwen3.5-9B-Base/tree/68c46c4b3498877f3ef123c856ecfde50c39f404).
+The base model is [`Qwen/Qwen3.5-9B` at revision
+`ef3d031a90d340a92d71f83ec17d054e100ce713`](https://huggingface.co/Qwen/Qwen3.5-9B/tree/ef3d031a90d340a92d71f83ec17d054e100ce713).
 The upstream model card declares Apache-2.0, and the exact revision includes an
-upstream [LICENSE](https://huggingface.co/Qwen/Qwen3.5-9B-Base/blob/68c46c4b3498877f3ef123c856ecfde50c39f404/LICENSE).
+upstream [LICENSE](https://huggingface.co/Qwen/Qwen3.5-9B/blob/ef3d031a90d340a92d71f83ec17d054e100ce713/LICENSE).
 The tokenizer and configuration in the package come from that revision. Their
 license and notices remain those supplied by Qwen; this repository does not
 relicense upstream materials.

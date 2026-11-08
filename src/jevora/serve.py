@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import logging
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -11,22 +12,32 @@ from typing import Any
 
 import torch
 
+from .contracts import InvalidInput
 from .model import DecisionModel, decision, load_release_package
 
 
 class DecisionService:
-    def __init__(self, model: DecisionModel, tokenizer: Any, max_length: int, device: torch.device, prompt_version: str, temperature: float) -> None:
-        self.model, self.tokenizer = model, tokenizer
-        self.max_length, self.device = max_length, device
-        self.prompt_version, self.temperature = prompt_version, temperature
+    def __init__(
+        self,
+        model: DecisionModel,
+        tokenizer: Any,
+        max_length: int,
+        device: torch.device,
+        prompt_version: str,
+        temperature: float,
+    ) -> None:
+        self.model = model
+        self.tokenizer = tokenizer
+        self.max_length = max_length
+        self.device = device
+        self.prompt_version = prompt_version
+        self.temperature = temperature
 
-    def decide(self, payload: Any) -> dict[str, Any]:
-        if not isinstance(payload, dict):
-            raise ValueError("request body must be a JSON object")
-        context, options = payload.get("context"), payload.get("options")
-        if not isinstance(context, str) or not isinstance(options, list):
-            raise ValueError("context must be a string and options must be an array")
-        choice, probabilities, _ = decision(self.model, self.tokenizer, context, options, self.max_length, self.device, self.prompt_version, self.temperature)
+    def decide(self, context: str, options: list[str]) -> dict[str, Any]:
+        choice, probabilities, _ = decision(
+            self.model, self.tokenizer, context, options, self.max_length,
+            self.device, self.prompt_version, self.temperature,
+        )
         return {"choice": choice, "probabilities": probabilities}
 
 
@@ -37,12 +48,33 @@ def handler(service: DecisionService) -> type[BaseHTTPRequestHandler]:
                 self.respond(HTTPStatus.NOT_FOUND, {"error": "not found"})
                 return
             try:
-                payload = json.loads(self.rfile.read(int(self.headers.get("Content-Length", "0"))))
-                self.respond(HTTPStatus.OK, service.decide(payload))
-            except (ValueError, json.JSONDecodeError) as error:
+                length = int(self.headers.get("Content-Length", "0"))
+                payload = json.loads(self.rfile.read(length))
+            except ValueError as error:
                 self.respond(HTTPStatus.BAD_REQUEST, {"error": str(error)})
-            except RuntimeError as error:
-                self.respond(HTTPStatus.INTERNAL_SERVER_ERROR, {"error": str(error)})
+                return
+
+            if not isinstance(payload, dict):
+                self.respond(
+                    HTTPStatus.BAD_REQUEST,
+                    {"error": "request body must be a JSON object"},
+                )
+                return
+
+            try:
+                result = service.decide(payload.get("context"), payload.get("options"))
+            except InvalidInput as error:
+                self.respond(HTTPStatus.BAD_REQUEST, {"error": str(error)})
+                return
+            except Exception:
+                logging.exception("decision inference failed")
+                self.respond(
+                    HTTPStatus.INTERNAL_SERVER_ERROR,
+                    {"error": "decision inference failed"},
+                )
+                return
+
+            self.respond(HTTPStatus.OK, result)
 
         def do_GET(self) -> None:
             self.respond(HTTPStatus.NOT_FOUND, {"error": "not found"})
@@ -70,9 +102,20 @@ def main() -> None:
     args = parser.parse_args()
     device = torch.device(args.device)
     model, tokenizer, metadata, temperature = load_release_package(args.package, device)
-    server = ThreadingHTTPServer((args.host, args.port), handler(DecisionService(model, tokenizer, metadata["max_length"], device, metadata.get("prompt_version", "jevora-v0.1-choice"), temperature)))
-    print(f"listening on http://{args.host}:{args.port}/decision")
-    server.serve_forever()
+    service = DecisionService(
+        model=model,
+        tokenizer=tokenizer,
+        max_length=metadata["max_length"],
+        device=device,
+        prompt_version=metadata.get("prompt_version", "jevora-v0.1-choice"),
+        temperature=temperature,
+    )
+    server = ThreadingHTTPServer((args.host, args.port), handler(service))
+    try:
+        print(f"listening on http://{args.host}:{args.port}/decision")
+        server.serve_forever()
+    finally:
+        server.server_close()
 
 
 if __name__ == "__main__":

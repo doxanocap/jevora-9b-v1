@@ -17,10 +17,14 @@ def main() -> None:
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
-    model, tokenizer, metadata, temperature = load_release_package(args.package, torch.device(args.device))
+    device = torch.device(args.device)
+    model, tokenizer, metadata, temperature = load_release_package(args.package, device)
     context = "A customer needs to pay at a shop using their bank card."
     options = ["card payment", "cash withdrawal", "bank transfer"]
-    choice, probabilities, tokens = decision(model, tokenizer, context, options, metadata["max_length"], torch.device(args.device), metadata.get("prompt_version", "jevora-v0.1-choice"), temperature)
+    choice, probabilities, tokens = decision(
+        model, tokenizer, context, options, metadata["max_length"],
+        device, metadata.get("prompt_version", "jevora-v0.1-choice"), temperature,
+    )
     result = {
         "context": context,
         "options": options,

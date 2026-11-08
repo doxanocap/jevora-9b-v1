@@ -20,7 +20,11 @@ def values_from_env_file(path: Path) -> dict[str, str]:
         name, separator, value = line.partition("=")
         if separator and name.strip() == "HF_TOKEN":
             value = value.strip()
-            values["HF_TOKEN"] = value[1:-1] if len(value) >= 2 and value[0] == value[-1] and value[0] in {"'", '"'} else value.split(" #", maxsplit=1)[0].strip()
+            if len(value) >= 2 and value[0] == value[-1] and value[0] in {"'", '"'}:
+                value = value[1:-1]
+            else:
+                value = value.split(" #", maxsplit=1)[0].strip()
+            values["HF_TOKEN"] = value
     return values
 
 

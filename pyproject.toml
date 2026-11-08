@@ -5,6 +5,7 @@ description = "Public inference loader for the jevora-9b-v1 research decision mo
 readme = "README.md"
 requires-python = ">=3.13,<3.14"
 dependencies = [
+  "safetensors==0.8.0",
   "torch==2.8.0",
   "transformers==5.17.0",
 ]

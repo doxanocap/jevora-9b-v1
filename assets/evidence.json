@@ -1,0 +1,16 @@
+{
+  "assets": {
+    "calibration.svg": "22c91ef4ed8903ea6e731741f20ddb20cda35146420998287308d5dc5888218d",
+    "dev-by-source.svg": "10006c5bc24b85af76207f7cbf05b25dc32ad394e5f37eee0c5ee670a1235381",
+    "dev-comparison.svg": "8f5b7b287b6e3127045a4e00f8388517bcb1cbad9575afd342f021e1c7db99b0",
+    "final-result.svg": "c50b8f1beb41527446717547bb50a51aa98bfe394138a9b14b0f0df92f71a86b"
+  },
+  "checkpoint_id": "9b-v1-full-g1-01/step-4000",
+  "corpus_manifest_sha256": "7a222bb71eb9a433b716c51c552dc9cba01453737038f3e4d3cfabc03595880f",
+  "dev_records_sha256": "76e365328ce150e5442851e22e8172e20770a47681dda1ba8fc4a2ff4c57b330",
+  "format": "jevora-public-assets-v1",
+  "model_name": "jevora-9b-v1",
+  "recorded_hf_revision": "c644b9c7a3b67b7acc3279523e3bee69a4be473d",
+  "source_status": "The source aggregate reports are not present in this checkout. Historical values are documented in the model card; per-source values have not been revalidated here. These figures do not describe V1.6.",
+  "status": "HISTORICAL_RETAINED_NOT_REGENERATED"
+}
